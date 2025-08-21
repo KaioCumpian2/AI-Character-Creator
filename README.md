@@ -1,4 +1,5 @@
-`markdown
+
+
 # 🤖 AI Character Creator
 
 Crie, explore e gerencie **personagens de IA** com esta aplicação web divertida feita com **Spring Boot**, **Thymeleaf** e **PostgreSQL**!  
