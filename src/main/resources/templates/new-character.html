@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="#{page.new.title}">Novo Personagem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .field { margin-bottom: 1rem; }
+        label { display: block; font-weight: 600; margin-bottom: .25rem; }
+        input, select, textarea { width: 100%; padding: .5rem; border: 1px solid #ccc; border-radius: 8px; }
+        .is-invalid { border-color: #e63946; background: #fff5f5; }
+        .error { color: #b00020; font-size: .9rem; margin-top: .25rem; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .actions { display: flex; gap: .75rem; }
+        .btn { padding: .6rem 1rem; border-radius: 8px; border: 1px solid #ccc; background: #f7f7f7; cursor: pointer; }
+        .btn.primary { background: #1f6feb; color: white; border-color: #1f6feb; }
+        nav a { margin-right: .5rem; }
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/characters}" th:text="#{nav.list}">Lista</a>
+    <span> | </span>
+    <a th:href="@{|?lang=pt|}">PT</a>
+    <a th:href="@{|?lang=en|}">EN</a>
+    <a th:href="@{|?lang=es|}">ES</a>
+</nav>
+
+<h1 th:text="#{page.new.heading}">Novo Personagem</h1>
+
+<form th:action="@{/characters}" th:object="${aiCharacter}" method="post">
+    <div class="field">
+        <label for="name" th:text="#{label.name}">Name</label>
+        <input id="name" th:field="*{name}" th:errorclass="is-invalid" />
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div class="field">
+        <label for="species" th:text="#{label.species}">Species</label>
+        <select id="species" th:field="*{species}" th:errorclass="is-invalid">
+            <option th:text="#{select.placeholder}" value="">--</option>
+            <option th:each="s : ${speciesValues}"
+                    th:value="${s}"
+                    th:text="#{'species.' + ${s.name().toLowerCase()}}">HUMAN</option>
+        </select>
+        <div class="error" th:if="${#fields.hasErrors('species')}" th:errors="*{species}"></div>
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label for="startingLevel" th:text="#{label.startingLevel}">Starting Level</label>
+            <input id="startingLevel" type="number" min="1" max="100" th:field="*{startingLevel}" th:errorclass="is-invalid" />
+            <div class="error" th:if="${#fields.hasErrors('startingLevel')}" th:errors="*{startingLevel}"></div>
+        </div>
+        <div class="field">
+            <label for="creationDate" th:text="#{label.creationDate}">Creation Date</label>
+            <input id="creationDate" type="date" th:field="*{creationDate}" th:errorclass="is-invalid" />
+            <div class="error" th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}"></div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label for="specialAbility" th:text="#{label.specialAbility}">Special Ability</label>
+        <input id="specialAbility" th:field="*{specialAbility}" th:errorclass="is-invalid" />
+        <div class="error" th:if="${#fields.hasErrors('specialAbility')}" th:errors="*{specialAbility}"></div>
+    </div>
+
+    <div class="field">
+        <label for="bio" th:text="#{label.bio}">Bio</label>
+        <textarea id="bio" rows="4" th:field="*{bio}" th:errorclass="is-invalid"></textarea>
+        <div class="error" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></div>
+    </div>
+
+    <div class="actions">
+        <button class="btn primary" type="submit" th:text="#{btn.save}">Salvar</button>
+        <a class="btn" th:href="@{/characters}" th:text="#{btn.cancel}">Cancelar</a>
+    </div>
+</form>
+</body>
+</html>

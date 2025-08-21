@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="#{page.list.title}">Personagens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: .6rem; border-bottom: 1px solid #eee; text-align: left; }
+        nav a { margin-right: .5rem; }
+        .btn { padding: .5rem .9rem; border-radius: 8px; border: 1px solid #ccc; background: #f7f7f7; text-decoration: none; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<div class="topbar">
+    <div>
+        <a th:href="@{|?lang=pt|}">PT</a>
+        <a th:href="@{|?lang=en|}">EN</a>
+        <a th:href="@{|?lang=es|}">ES</a>
+    </div>
+    <a class="btn" th:href="@{/characters/new}" th:text="#{btn.new}">Novo</a>
+</div>
+
+<h1 th:text="#{page.list.heading}">Personagens</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="#{label.name}">Name</th>
+        <th th:text="#{label.species}">Species</th>
+        <th th:text="#{label.startingLevel}">Starting Level</th>
+        <th th:text="#{label.specialAbility}">Special Ability</th>
+        <th th:text="#{label.creationDate}">Creation Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${characters}">
+        <td th:text="${c.name}">-</td>
+        <td th:text="#{'species.' + ${c.species.name().toLowerCase()}}">-</td>
+        <td th:text="${c.startingLevel}">-</td>
+        <td th:text="${c.specialAbility}">-</td>
+        <td th:text="${c.creationDate}">-</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(characters)}">
+        <td colspan="5" th:text="#{empty.list}">Nenhum registro encontrado</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

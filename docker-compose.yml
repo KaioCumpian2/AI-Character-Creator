@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16
+    container_name: cc_postgres
+    environment:
+      POSTGRES_DB: character_creator
+      POSTGRES_USER: cc_user
+      POSTGRES_PASSWORD: cc_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cc_user -d character_creator"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  pgdata:
